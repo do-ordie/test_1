@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-# import json
 from json import JSONEncoder
+from model.user import User
 from model.twit import Twit
 
 twits = []
@@ -26,7 +26,8 @@ def create_twit():
     # {"body": "Hello World", "author": "@Niko"} 
 
     twit_json = request.get_json()
-    twit = Twit(twit_json['body'], twit_json['author'])
+    author = User(twit_json['author'])  # create User object
+    twit = Twit(twit_json['body'], author)  # pass User object
     twits.append(twit)
     return jsonify({'status': 'success'})
 
